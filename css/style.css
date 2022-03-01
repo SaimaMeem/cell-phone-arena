@@ -6,4 +6,25 @@ body {
 
 .header {
     font-family: 'Bebas Neue', cursive;
+    color: #0A3e5b;
+}
+
+img {
+    width: 100%;
+    object-fit: contain;
+}
+
+.btn-custom {
+    padding: 0.4rem 1.8rem;
+    font-weight: 600;
+    /* background-color: #0A3e5b; */
+    background-color: #fff;
+    transition: all 0.3s;
+    outline: 1px solid #0A3e5b;
+}
+
+.btn-custom:hover {
+    border: 1px solid #0A3e5b;
+    background-color: #0A3e5b;
+    color: #fff;
 }
