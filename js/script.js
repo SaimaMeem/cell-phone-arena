@@ -3,7 +3,7 @@ const searchField = document.getElementById('search-field');
 const phoneCards = document.getElementById('phone-cards');
 
 searchButton.addEventListener('click', () => {
-    const searchText = searchField.value;
+    const searchText = searchField.value.toLowerCase();
     if (searchText) {
         fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
             .then(res => res.json())
@@ -15,7 +15,7 @@ searchButton.addEventListener('click', () => {
 
 const displayResults = (results, searchText) => {
     const arr = results.data;
-
+    console.log(arr);
     phoneCards.textContent = '';
     if (arr.length == 0) {
         phoneCards.innerHTML = `<p class="text-center mx-auto">No results found for <strong>${searchText}! &nbsp;  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-frown" viewBox="0 0 16 16">
@@ -24,18 +24,36 @@ const displayResults = (results, searchText) => {
       </svg></strong>
         <br>Please try again!</p>`;
     } else {
-        arr.forEach(element => {
-            const col = document.createElement('col');
-            col.innerHTML = `<div class="card h-100 rounded-3">
-                           <img src="${element.image}" class="img-fluid" alt="...">
+        const parentPhoneCards = document.getElementById("parent-phone-cards");
+        for (let i = 0; i < arr.length; i++) {
+            {
+                const col = document.createElement('col');
+                col.innerHTML = `<div class="card h-75 rounded-3">
+                           <img src="${arr[i].image}" class="img-fluid h-100 pt-4" alt="...">
                            <div class="card-body">
-                               <h5 class="card-title">${element.phone_name}</h5>
-                               <h6 class="fw-bold">Brand: ${element.brand}</h6>
+                               <h5 class="card-title">${arr[i].phone_name}</h5>
+                               <h6 class="fw-bold">Brand: ${arr[i].brand}</h6>
                            </div>
-                           <button class="btn btn-custom" id="${element.slug}" type="button" onclick="displayDetails(this)" data-bs-toggle="modal" data-bs-target="#phoneModal">Details  &nbsp;&nbsp;<i class="fa fa-arrow-right"></i> </button>
+                           <button class="btn btn-custom" id="${arr[i].slug}" type="button" onclick="displayDetails(this)" data-bs-toggle="modal" data-bs-target="#phoneModal">Details  &nbsp;&nbsp;<i class="fa fa-arrow-right"></i> </button>
                         </div>`;
-            phoneCards.appendChild(col);
-        });
+                phoneCards.appendChild(col);
+            }
+            if (i == 19) {
+                const button = document.createElement('button');
+                button.innerText = 'See More';
+                button.classList.add('btn', 'btn-custom', 'mx-auto', 'w-auto', 'd-flex');
+                button.id = 'see-more-button';
+                parentPhoneCards.appendChild(button);
+                break;
+                // if (document.getElementById('see-more-button').clicked == true) {
+                //     parentPhoneCards.remove(button);
+                //     console.log('helo');
+                //     continue;
+                // } else {
+                //     break;
+                // }
+            }
+        };
     }
 }
 
@@ -43,14 +61,44 @@ const displayDetails = (phoneId) => {
     fetch(`https://openapi.programming-hero.com/api/phone/${phoneId.id}`)
         .then(res => res.json())
         .then(results => {
-            // console.log(results);
+            const arr = results.data;
+            console.log(arr);
+            let releaseDate = arr.releaseDate;
+            let mainFeatures = arr.mainFeatures;
+            let otherFeatures = arr.others;
+            if (!releaseDate) {
+                releaseDate = "Not Available";
+            }
             const modalDetails = document.getElementById('modal-details');
             modalDetails.innerHTML = `
             <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body d-lg-flex d-block g-3">
+            <div class="image h-auto me-4 d-flex align-items-center justify-content-center "> 
+                <img src="${arr.image}" class="img-thumbnail" alt="Image of a Phone">
+            </div>
+            <div class="details h-auto my-2">
+                <h5><strong>${arr.brand} ${arr.name}</strong></h5>
+                <small class="text-muted"> <strong>Release Date:</strong> ${releaseDate}</small><br>
+                <h6 class="mb-1 d-inline-block"><strong>Main Features</strong></h6><br>
+                <small>
+                <strong>Storage:</strong> ${mainFeatures?.storage??"Not Available"}<br>
+                <strong>Display Size:</strong> ${mainFeatures?.displaySize??"Not Available"}<br>
+                <strong>Chipset:</strong> ${mainFeatures?.chipSet??"Not Available"}<br>
+                <strong>Memory:</strong> ${mainFeatures?.memory??"Not Available"}<br>
+                <strong>Sensors:</strong> ${mainFeatures?.sensors.join(", ")??"Not Available"}<br>
+                </small>
+                <h6 class="my-1  d-inline-block"><strong>Others</strong></h6><br>
+                <small>
+                <strong>WLAN:</strong> ${otherFeatures?.WLAN??"Not Available"}<br>
+                <strong>Bluetooth:</strong> ${otherFeatures?.Bluetooth??"Not Available"}<br>
+                <strong>GPS:</strong> ${otherFeatures?.GPS??"Not Available"}<br>
+                <strong>NFC:</strong> ${otherFeatures?.NFC??"Not Available"}<br>
+                <strong>Radio:</strong> ${otherFeatures?.Radio??"Not Available"}<br>
+                <strong>USB:</strong> ${otherFeatures?.USB??"Not Available"}<br>
+                </small>
+            </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

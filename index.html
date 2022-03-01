@@ -18,33 +18,27 @@
 
 <body>
     <header>
-        <h1 class="header text-center pt-3">Cell Phone Arena</h1>
+        <h1 class="header text-center pt-4">Cell Phone Arena</h1>
     </header>
     <main class="container">
         <div class="input-group mb-3 w-75 mx-auto py-3" id="input-box">
-            <input id="search-field" type="text" class="form-control" placeholder="Search" aria-label="Cell Phone's Brand" aria-describedby="Cell Phone's Brand">
+            <input id="search-field" type="text" class="form-control" placeholder="Search..." aria-label="Cell Phone's Brand" aria-describedby="Cell Phone's Brand">
             <div class="input-group-append">
                 <button class="btn btn-custom" id="search-button" type="button"><i class="fa fa-search"></i></button>
 
             </div>
         </div>
-        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4" id="phone-cards">
+        <!-- phone cards -->
+        <div class="mb-5" id="parent-phone-cards">
+            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 mb-3" id="phone-cards">
+            </div>
         </div>
+        <!-- phone cards -->
     </main>
     <!-- modal -->
     <div class="modal fade" id="phoneModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content" id="modal-details">
-                <!-- <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div> -->
             </div>
         </div>
     </div>
