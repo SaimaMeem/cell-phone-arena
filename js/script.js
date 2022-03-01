@@ -32,7 +32,7 @@ const displayResults = (results, searchText) => {
                                <h5 class="card-title">${element.phone_name}</h5>
                                <h6 class="fw-bold">Brand: ${element.brand}</h6>
                            </div>
-                           <button class="btn btn-custom" id="${element.slug}" type="button" onclick="displayDetails(this)">Details  &nbsp;&nbsp;<i class="fa fa-arrow-right"></i> </button>
+                           <button class="btn btn-custom" id="${element.slug}" type="button" onclick="displayDetails(this)" data-bs-toggle="modal" data-bs-target="#phoneModal">Details  &nbsp;&nbsp;<i class="fa fa-arrow-right"></i> </button>
                         </div>`;
             phoneCards.appendChild(col);
         });
@@ -43,6 +43,17 @@ const displayDetails = (phoneId) => {
     fetch(`https://openapi.programming-hero.com/api/phone/${phoneId.id}`)
         .then(res => res.json())
         .then(results => {
-            console.log(results);
+            // console.log(results);
+            const modalDetails = document.getElementById('modal-details');
+            modalDetails.innerHTML = `
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>`;
         })
 }

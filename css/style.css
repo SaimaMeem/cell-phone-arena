@@ -28,3 +28,13 @@ img {
     background-color: #0A3e5b;
     color: #fff;
 }
+
+#input-box {
+    width: 50%;
+}
+
+@media only screen and (max-width: 720px) {
+    #input-box {
+        width: 75%;
+    }
+}
