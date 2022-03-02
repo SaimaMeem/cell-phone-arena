@@ -17,6 +17,7 @@ searchButton.addEventListener('click', () => {
             .then(res => res.json())
             .then(results => displayResults(results, searchText))
     } else {
+        spinner.style.display = "none";
         phoneCards.innerHTML = `<p class="text-center mx-auto">Please enter a phone name!</p>`;
     }
 })
@@ -38,13 +39,14 @@ const displayResults = (results, searchText) => {
         } else {
             for (let i = 0; i < arr.length; i++) {
                 const col = document.createElement('col');
-                col.innerHTML = `<div class="card h-75 rounded-3">
-            <img src="${arr[i].image}" class="img-fluid h-100 pt-4" alt="...">
+                // col.classList.add('card');
+                col.innerHTML = `<div class="card h-100 rounded-3 shadow p-3">
+            <img src="${arr[i].image}" class="img-fluid h-100" alt="...">
             <div class="card-body">
                 <h5 class="card-title">${arr[i].phone_name}</h5>
                 <h6 class="fw-bold">Brand: ${arr[i].brand}</h6>
             </div>
-            <button class="btn btn-custom" id="${arr[i].slug}" type="button" onclick="displayDetails(this)" data-bs-toggle="modal" data-bs-target="#phoneModal">Details  &nbsp;&nbsp;<i class="fa fa-arrow-right"></i> </button>
+            <button class="btn btn-custom details" id="${arr[i].slug}" type="button" onclick="displayDetails(this)" data-bs-toggle="modal" data-bs-target="#phoneModal">Details  &nbsp;&nbsp;<i class="fa fa-arrow-right"></i> </button>
          </div>`;
 
                 if (i === 19 && arr.length > 19) {
