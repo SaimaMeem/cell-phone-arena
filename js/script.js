@@ -1,7 +1,11 @@
 const searchButton = document.getElementById('search-button');
 const searchField = document.getElementById('search-field');
 const phoneCards = document.getElementById('phone-cards');
-
+const parentPhoneCards = document.getElementById("parent-phone-cards");
+const seeMoreButton = document.getElementById('see-more-button');
+const seeMoreButtonDiv = document.getElementById('see-more-button-div');
+const seeMoreDiv = document.getElementById('see-more-div');
+const dummyDiv = document.getElementById('dummy-div');
 searchButton.addEventListener('click', () => {
     const searchText = searchField.value.toLowerCase();
     if (searchText) {
@@ -15,8 +19,10 @@ searchButton.addEventListener('click', () => {
 
 const displayResults = (results, searchText) => {
     const arr = results.data;
-    console.log(arr);
+    // console.log(arr);
     phoneCards.textContent = '';
+    seeMoreDiv.textContent = '';
+    dummyDiv.style.display = 'none';
     if (arr.length == 0) {
         phoneCards.innerHTML = `<p class="text-center mx-auto">No results found for <strong>${searchText}! &nbsp;  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-frown" viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -24,36 +30,30 @@ const displayResults = (results, searchText) => {
       </svg></strong>
         <br>Please try again!</p>`;
     } else {
-        const parentPhoneCards = document.getElementById("parent-phone-cards");
         for (let i = 0; i < arr.length; i++) {
-            {
-                const col = document.createElement('col');
-                col.innerHTML = `<div class="card h-75 rounded-3">
-                           <img src="${arr[i].image}" class="img-fluid h-100 pt-4" alt="...">
-                           <div class="card-body">
-                               <h5 class="card-title">${arr[i].phone_name}</h5>
-                               <h6 class="fw-bold">Brand: ${arr[i].brand}</h6>
-                           </div>
-                           <button class="btn btn-custom" id="${arr[i].slug}" type="button" onclick="displayDetails(this)" data-bs-toggle="modal" data-bs-target="#phoneModal">Details  &nbsp;&nbsp;<i class="fa fa-arrow-right"></i> </button>
-                        </div>`;
+            const col = document.createElement('col');
+            col.innerHTML = `<div class="card h-75 rounded-3">
+            <img src="${arr[i].image}" class="img-fluid h-100 pt-4" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${arr[i].phone_name}</h5>
+                <h6 class="fw-bold">Brand: ${arr[i].brand}</h6>
+            </div>
+            <button class="btn btn-custom" id="${arr[i].slug}" type="button" onclick="displayDetails(this)" data-bs-toggle="modal" data-bs-target="#phoneModal">Details  &nbsp;&nbsp;<i class="fa fa-arrow-right"></i> </button>
+         </div>`;
+
+            if (i === 19 && arr.length > 19) {
+                seeMoreButtonDiv.style.display = 'block';
+            }
+            if (i <= 19) {
                 phoneCards.appendChild(col);
+            } else {
+                seeMoreDiv.appendChild(col);
             }
-            if (i == 19) {
-                const button = document.createElement('button');
-                button.innerText = 'See More';
-                button.classList.add('btn', 'btn-custom', 'mx-auto', 'w-auto', 'd-flex');
-                button.id = 'see-more-button';
-                parentPhoneCards.appendChild(button);
-                break;
-                // if (document.getElementById('see-more-button').clicked == true) {
-                //     parentPhoneCards.remove(button);
-                //     console.log('helo');
-                //     continue;
-                // } else {
-                //     break;
-                // }
-            }
-        };
+        }
+        seeMoreButton.addEventListener("click", () => {
+            dummyDiv.style.display = 'block';
+            seeMoreButtonDiv.style.display = 'none';
+        });
     }
 }
 
@@ -62,7 +62,7 @@ const displayDetails = (phoneId) => {
         .then(res => res.json())
         .then(results => {
             const arr = results.data;
-            console.log(arr);
+            // console.log(arr);
             let releaseDate = arr.releaseDate;
             let mainFeatures = arr.mainFeatures;
             let otherFeatures = arr.others;

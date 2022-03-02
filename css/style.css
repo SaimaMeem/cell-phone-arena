@@ -38,6 +38,14 @@ img {
     width: 40%;
 }
 
+#see-more-button-div {
+    display: none;
+}
+
+#dummy-div {
+    display: none;
+}
+
 @media only screen and (max-width: 720px) {
     #input-box {
         width: 75%;
