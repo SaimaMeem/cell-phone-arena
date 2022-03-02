@@ -46,12 +46,17 @@ img {
     display: none;
 }
 
+#spinner {
+    display: none;
+}
+
 @media only screen and (max-width: 720px) {
     #input-box {
         width: 75%;
     }
     .image {
         width: 100%;
+        margin: 0 auto;
     }
     .details {
         margin-top: 20px;
